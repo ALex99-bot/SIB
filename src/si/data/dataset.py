@@ -1,4 +1,6 @@
 import numpy as np
+import pandas as pd
+
 from si.util.util import label_gen
 
 __all__ = ['Dataset']
@@ -13,8 +15,8 @@ class Dataset:
             raise Exception("Trying to instanciate a DataSet without any data")
         self.X = X
         self.Y = Y
-        self._xnames = xnames if xnames else label_gen(X.shape[1])
-        self._yname = yname if yname else 'Y'
+        self.xnames = xnames if xnames else label_gen(X.shape[1])
+        self.yname = yname if yname else 'Y'
 
     @classmethod
     def from_data(cls, filename, sep=",", labeled=True):
@@ -47,7 +49,17 @@ class Dataset:
         :return: [description]
         :rtype: [type]
         """
-        pass
+        if ylabel is not None and ylabel in df.columns:
+            X = df.loc[:, df.columns != ylabel].to_numpy()
+            Y = df.loc[:, ylabel].to_numpy()
+            xnames = df.columns.tolist().remove(ylabel)
+            yname = None
+        else:
+            X = df.to_numpy()
+            Y = None
+            xnames = df.columns.tolist()
+            yname = None
+        return cls(X, Y, xnames, yname)
 
     def __len__(self):
         """Returns the number of data points."""
@@ -55,15 +67,15 @@ class Dataset:
 
     def hasLabel(self):
         """Returns True if the dataset constains labels (a dependent variable)"""
-        pass
+        return self.Y
 
     def getNumFeatures(self):
         """Returns the number of features"""
-        pass
+        return self.X.shape[1]
 
     def getNumClasses(self):
         """Returns the number of label classes or 0 if the dataset has no dependent variable."""
-        pass
+        return len(np.unique(self.Y)) if self.hasLabel() else 0
 
     def writeDataset(self, filename, sep=","):
         """Saves the dataset to a file
@@ -73,13 +85,14 @@ class Dataset:
         :param sep: The fields separator, defaults to ","
         :type sep: str, optional
         """
-
         fullds = np.hstack((self.X, self.Y.reshape(len(self.Y), 1)))
         np.savetxt(filename, fullds, delimiter=sep)
 
     def toDataframe(self):
         """ Converts the dataset into a pandas DataFrame"""
-        pass
+        df = pd.DataFrame(self.X, columns=self.xnames)
+        df[self.yname] = self.Y
+        return df
 
     def getXy(self):
         return self.X, self.Y

@@ -1,4 +1,5 @@
 import itertools
+import pandas as pd
 
 # Y is reserved to idenfify dependent variables
 ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXZ'
@@ -32,4 +33,12 @@ def summary(dataset, format='df'):
     :param format: Output format ('df':DataFrame, 'dict':dictionary ), defaults to 'df'
     :type format: str, optional
     """
-    pass
+    df_describe = pd.DataFrame(dataset.X, columns=dataset.xnames)
+    statistics = df_describe.describe()
+    if format is "df":
+        return statistics
+    elif format is "dict":
+        return statistics.to_dict()
+    else:
+        raise Exception("Format is not available.")
+
