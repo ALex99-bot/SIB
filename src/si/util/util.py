@@ -1,4 +1,6 @@
 import itertools
+
+import numpy as np
 import pandas as pd
 
 # Y is reserved to idenfify dependent variables
@@ -33,12 +35,29 @@ def summary(dataset, format='df'):
     :param format: Output format ('df':DataFrame, 'dict':dictionary ), defaults to 'df'
     :type format: str, optional
     """
-    df_describe = pd.DataFrame(dataset.X, columns=dataset.xnames)
-    statistics = df_describe.describe()
-    if format is "df":
-        return statistics
-    elif format is "dict":
-        return statistics.to_dict()
+    if dataset.hasLabel():
+        fullds = np.hstack((dataset.X, dataset.y.reshape(len(dataset.y))))
+        columns = dataset.xnames[:]+[dataset.yname]
     else:
-        raise Exception("Format is not available.")
+        fullds = dataset.X
+        columns = dataset.xnames[:]
+    _means = np.mean(fullds, axis=0)
+    _vars = np.var(fullds, axis=0)
+    _mins = np.min(fullds, axis=0)
+    _maxs = np.max(fullds, axis=0)
+    stats = {}
+    for i in range(fullds.shape[1]):
+        stat = {'mean': _means[i],
+                'var': _vars[i],
+                'min': _mins[i],
+                'max': _maxs[i]
+                }
+        stats[columns[i]] = stat
+    if format == "df":
+        import pandas as pd
+        df = pd.DataFrame(stats)
+        return df
+    else:
+        return stats
+
 
