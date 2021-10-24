@@ -69,7 +69,7 @@ def f_classif(dataset):
 def f_regression(dataset):
     correlation_coefficient = []
     for c in range(dataset.X.shape[1]):
-        correlation_coefficient.append(stats.pearsonr(dataset[:, c], dataset.Y))
+        correlation_coefficient.append(stats.pearsonr(dataset.X[:, c], dataset.Y)[0])
 
     correlation_coefficient = np.array(correlation_coefficient)
 
