@@ -34,7 +34,7 @@ class KMeans:
         count = 0
         old_idxs = np.zeros(X.shape[0])
         self.init_centroids_random_points(X)
-        while changed or count < self.max_iterations:
+        while changed and count < self.max_iterations:
             # array of indexes of nearest centroid
             idxs = np.apply_along_axis(self.get_closest_centroids, axis=1, arr=X)
             cent = [np.mean(X[idxs == i], axis=0) for i in range(self.k)]

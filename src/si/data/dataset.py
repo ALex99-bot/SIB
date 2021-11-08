@@ -67,7 +67,10 @@ class Dataset:
 
     def hasLabel(self):
         """Returns True if the dataset constains labels (a dependent variable)"""
-        return self.Y
+        if type(self.Y)!=type(None):
+            return True
+        else:
+            return False
 
     def getNumFeatures(self):
         """Returns the number of features"""

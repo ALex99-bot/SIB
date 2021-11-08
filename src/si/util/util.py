@@ -36,7 +36,7 @@ def summary(dataset, format='df'):
     :type format: str, optional
     """
     if dataset.hasLabel():
-        fullds = np.hstack((dataset.X, dataset.y.reshape(len(dataset.y))))
+        fullds = np.hstack((dataset.X, dataset.Y.reshape(len(dataset.Y))))
         columns = dataset.xnames[:]+[dataset.yname]
     else:
         fullds = dataset.X
