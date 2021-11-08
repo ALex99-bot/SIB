@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class KMeans:
     def __init__(self, k: int, max_iterations=100):
         self.k = k
