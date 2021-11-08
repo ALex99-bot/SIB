@@ -61,3 +61,12 @@ def summary(dataset, format='df'):
         return stats
 
 
+def l1_distance(x, y):
+    dist = (np.absolute(x-y)).sum(axis=1)
+    return dist
+
+
+def l2_distance(x, y):
+    dist = ((x - y)**2).sum(axis=1)
+    return dist
+
