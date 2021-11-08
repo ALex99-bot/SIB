@@ -62,7 +62,7 @@ class KBestSelection:
 
 def f_classif(dataset):
     labels = np.unique(dataset.Y)
-    subsets = [dataset[dataset.Y == i, :] for i in labels]
+    subsets = [dataset.X[dataset.Y == i, :] for i in labels]
     return stats.f_oneway(*subsets)
 
 

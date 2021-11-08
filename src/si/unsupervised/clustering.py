@@ -43,3 +43,7 @@ class KMeans:
             old_idxs = idxs
             count += 1
         return self.centroids, idxs
+
+    def fit_transform(self, dataset):
+        self.fit(dataset)
+        return self.transform(dataset)

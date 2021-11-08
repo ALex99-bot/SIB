@@ -36,7 +36,7 @@ def summary(dataset, format='df'):
     :type format: str, optional
     """
     if dataset.hasLabel():
-        fullds = np.hstack((dataset.X, dataset.Y.reshape(len(dataset.Y))))
+        fullds = np.hstack((dataset.X, dataset.Y.reshape(len(dataset.Y), 1)))
         columns = dataset.xnames[:]+[dataset.yname]
     else:
         fullds = dataset.X
@@ -70,3 +70,13 @@ def l2_distance(x, y):
     dist = ((x - y)**2).sum(axis=1)
     return dist
 
+
+def train_test_split(dataset, split=0.8):
+    n = dataset.X.shape[0]
+    m = int(split*n)
+    arr = np.arange(n)
+    np.random.shuffle(arr)
+    from ..data import Dataset
+    train = Dataset(dataset.X[arr[:n]], dataset.y[arr[:n]], dataset._xnames, dataset._yname)
+    test = Dataset(dataset.X[arr[m:]], dataset.y[arr[m:]], dataset._xnames, dataset._yname)
+    return train, test
