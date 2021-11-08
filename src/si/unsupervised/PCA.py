@@ -32,7 +32,7 @@ def SVD(X, n_components):
 
 
 class PCA:
-    def __init__(self, function=SVD, n_components=2):
+    def __init__(self, n_components, function=SVD):
         self.n_components = n_components
         self.func = function
 
