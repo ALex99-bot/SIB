@@ -1,10 +1,10 @@
 import unittest
-from si.unsupervised import clustering
+from src.si.unsupervised import clustering
 
 
 class TestClustering(unittest.TestCase):
     def setUp(self):
-        from si.data import Dataset
+        from src.si.data import Dataset
         self.filename = "datasets/cpu.data"
         self.dataset = Dataset.from_data(self.filename, labeled=True)
 

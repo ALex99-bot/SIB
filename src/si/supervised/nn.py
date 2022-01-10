@@ -146,21 +146,21 @@ class Pooling2D(Layer):
             raise Exception('Invaid output dimension!')
         h_out, w_out = int(h_out), int(w_out)
 
-        X_reshaped = input.reshape(n*d, 1, h, w)
+        X_reshaped = input.reshape(n*d, h, w, 1)
         self.X_col = im2col(X_reshaped, self.size, padding=0, stride=self.stride)
 
         out, self.max_idx = self.pool(self.X_col)
         out = out.reshape(h_out, w_out, n, d)
-        out = out.transpose(2, 3, 0, 1)
+        out = out.transpose(1, 2 ,3, 0)
         return out
 
     def backward(self, output_erros, learing_rate):
         n, w, h, d = self.X_shape
 
         dX_col = np.zeros_like(self.X_col)
-        dout_col = output_error.transpose(2, 3, 0, 1).ravel()
+        dout_col = output_error.transpose(1, 2, 3, 0).ravel()
         dX = self.dpool(dX_col, dout_col, self.max_idx)
-        dX = self.col2im(dX, (n*d, 1, h, w),
+        dX = self.col2im(dX, (n*d, h, w, 1),
                          self.size, self.size, padding=0, stride=self.stride)
         dX = dX.reshape(self.X_shape)
         return dX

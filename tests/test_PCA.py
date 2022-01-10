@@ -1,10 +1,10 @@
 import unittest
-from si.unsupervised import PCA
+from src.si.unsupervised import PCA
 
 
 class MyTestCase(unittest.TestCase):
     def setUp(self):
-        from si.data import Dataset
+        from src.si.data import Dataset
         self.filename = "datasets/cpu.data"
         self.dataset = Dataset.from_data(self.filename, labeled=True)
 
