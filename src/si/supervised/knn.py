@@ -1,13 +1,18 @@
 import numpy as np
-from si.util import util, metrics
+from si.util import l1_distance, l2_distance
+from si.util.metrics import accuracy_score
 from model import Model
 
 
 class KNN(Model):
-    def __init__(self,k , num_neighbors):
-        super(KNN).__init()
-        self.k = k
-        self.num_neighbors = num_neighbors
+    def __init__(self, number_neighbors: int, classification=True, func=l2_distance):
+        super(KNN, self).__init__()
+        self.k = number_neighbors
+        self.classification = classification
+        if func == l2_distance or func == l1_distance:
+            self.func = func
+        else:
+            raise Exception('Score functions: euclidean_distance, manhattan_distance')
 
     def fit(self, dataset):
         self.dataset = dataset

@@ -7,7 +7,7 @@ class Model(ABC):
         """
         self.is_fitted = False
 
-    @abstractmethod
+    @abstractmethod  # torna a função abstrata. Sempre que criarem uma superclasse no modelo ele verifica se estes métodos estão implementados.
     def fit(self, dataset):
         raise NotImplementedError
 
