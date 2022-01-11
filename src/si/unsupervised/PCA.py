@@ -43,7 +43,7 @@ class PCA:
 
     def transform(self, dataset):
         centered = self.scaler.transform(dataset)
-        PC, self.eigen = self.func(centered.X, self.n_components) # func passa a ser PC e EV
+        PC, self.eigen = self.func(centered.X, self.n_components)  # func passa a ser PC e EV
         self.variance_explained()
         return PC
 

@@ -127,7 +127,7 @@ class Conv2D:
 
 
 class Pooling2D(Layer):
-    def __init__(self, size=2,stride=2):
+    def __init__(self, size=2, stride=2):
         self.size = size
         self.stride = stride
 
@@ -151,7 +151,7 @@ class Pooling2D(Layer):
 
         out, self.max_idx = self.pool(self.X_col)
         out = out.reshape(h_out, w_out, n, d)
-        out = out.transpose(1, 2 ,3, 0)
+        out = out.transpose(3, 2, 0, 1)
         return out
 
     def backward(self, output_erros, learing_rate):
@@ -167,8 +167,18 @@ class Pooling2D(Layer):
 
 
 class MaxPooling(Pooling2D):
+    def __init__(self, size=2, stride=2):
+        self.size = size
+        self.stride = stride
+
     def pool(self):
         pass
 
     def dpool(self):
+        pass
+
+    def forward(self, input):
+        pass
+
+    def backward(self, output_erros, learing_rate):
         pass

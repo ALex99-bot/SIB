@@ -1,11 +1,11 @@
 import unittest
-from src.si.data import feature_selection
+from si.data import feature_selection
 
 
 class TestFRegression(unittest.TestCase):
 
     def setUp(self):
-        from src.si.data import Dataset
+        from si.data import Dataset
         self.filename = "datasets/lr-example1.data"
         self.dataset = Dataset.from_data(self.filename, labeled=True)
 
